@@ -1,16 +1,19 @@
 <template>
   <div class="movieDetail">
-    <div id="movieTitle">
-      <h1>这是电影标题</h1>
-    </div>
-
     <el-row>
-      <el-col :span="4" :offset="3">
+      <el-col :span="12" :offset="3">
+        <div id="movieTitle">
+          <h1>这是电影标题</h1>
+        </div>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="2" :offset="3">
         <div id="movieCover" style="background: #2c3e50" >
           <el-image :src="require('../assets/logo.png')" :fit="'cover'"></el-image>
         </div>
       </el-col>
-      <el-col :span="5" :offset="1">
+      <el-col :span="5" :offset="2">
         <div id="movieInfo">
           <el-descriptions class="margin-top" title="" :column="1">
             <el-descriptions-item label="导演">导演超链接</el-descriptions-item>
@@ -23,7 +26,7 @@
           </el-descriptions>
         </div>
       </el-col>
-      <el-col :span="1">
+      <el-col :span="1"><br/>
         <el-divider direction="vertical"></el-divider>
       </el-col>
       <el-col :span="4">
@@ -97,7 +100,7 @@ export default {
 
 }
 #movieTitle{
-  margin-left: 9em;
+
 }
 #movieCover{
   width: 9em;
