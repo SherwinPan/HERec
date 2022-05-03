@@ -6,11 +6,16 @@ import VueRouter from 'vue-router'
 import router from './router'
 import store from './store';
 import axios from 'axios';
+import jsCookie from 'js-cookie'
 import vueScrollBehavior from 'vue-scroll-behavior'
 Vue.config.productionTip = false//抑制警告
 Vue.use(ElementUI);
 Vue.use(VueRouter);
 Vue.prototype.axios=axios;
+axios.defaults.baseURL = 'http://localhost:8000/api'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+Vue.prototype.$axios = axios;
+Vue.prototype.$cookie = jsCookie;
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */
   if (to.meta.title) {
@@ -19,7 +24,8 @@ router.beforeEach((to, from, next) => {
   next()
 })
 new Vue({
+    axios,
 	router,
-	store,	
+	store,
 	render: h => h(App),
 }).$mount('#app')

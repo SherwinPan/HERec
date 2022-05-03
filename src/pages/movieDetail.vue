@@ -71,7 +71,11 @@
             </td>
           </tr>
         </table>
-
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="10" :offset="3">
+        <div ></div>
       </el-col>
     </el-row>
 

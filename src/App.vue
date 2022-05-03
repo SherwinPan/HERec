@@ -17,7 +17,7 @@
 <script>
 import HelloWorld from './components/HelloWorld.vue'
 import headerback from './components/headerBack.vue'
-
+import axios from'axios'
 export default {
   name: 'app',
   components: {

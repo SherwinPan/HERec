@@ -11,14 +11,14 @@ import movieDetail from '@/pages/movieDetail'
 import notFound from "@/pages/NotFound";
 
 Vue.use(Router);
-// let r = new Router({})
-// r.beforeEach((to, from, next) => {
+let r = new Router({})
+r.beforeEach((to, from, next) => {
 /* 路由发生变化修改页面title */
-//   if (to.meta.title) {
-//     document.title = to.meta.title
-//   }
-//   next()
-// })
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  next()
+})
 // export default r;
 export default new Router({
     routes: [

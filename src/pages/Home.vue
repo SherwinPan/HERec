@@ -1,17 +1,6 @@
 <template>
 	
 	<div id="home">
-		<!-- <headerBack></headerBack> -->
-<!-- 		<router-link to='Home' >
-			<div class="block">
-				<el-image style="width:100px;height:100px;" 
-				:src="require('../assets/logo.png')"
-				alt="Vue logo">
-				</el-image>				
-			</div>			
-		</router-link ><br/> -->
-		
-		
 		<router-view></router-view>
 	</div>
 	

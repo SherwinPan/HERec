@@ -18,17 +18,18 @@
 				</el-submenu>
 			</el-submenu>
 			<el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
-			<el-menu-item index="4">
-				<div v-if="$route.path==='/log'">
-					<!-- 如果有登录信息则显示头像 -->
-					<p>log log</p>
-				</div>
-				<div v-else>
+      <el-submenu index="4" v-if="this.$cookie.get('userId')">
+          <template slot="title">头像</template>
+          <el-menu-item index="4-1">个人中心</el-menu-item>
+          <el-menu-item index="4-2" @click="logout()">退出登录</el-menu-item>
+      </el-submenu>
+      <el-menu-item index="4" v-else>
 					<!-- 否则显示登录注册 -->
 					<router-link to='/log'>登录/注册</router-link>
-				</div>
+      </el-menu-item>
 
-			</el-menu-item>
+
+
 		</el-menu><br /><br /><br />
 
 
@@ -44,6 +45,17 @@
 				activeIndex: '1'
 			};
 		},
+    methods:{
+      logout(){
+        this.$cookie.remove('userId');
+        this.$cookie.remove('type');
+        location.reload();
+        this.$message({
+          message: '退出成功',
+          type: 'warning'
+        });
+      },
+    }
 	}
 </script>
 
