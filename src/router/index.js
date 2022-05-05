@@ -11,6 +11,8 @@ import movieDetail from '@/pages/movieDetail'
 import notFound from "@/pages/NotFound";
 import  me from '@/pages/me';
 import personDetail from '@/pages/personDetail';
+import searchMovie from '@/pages/searchMovie';
+import searchPerson from "@/pages/searchPerson";
 
 Vue.use(Router);
 // let r = new Router({})
@@ -91,6 +93,25 @@ export default new Router({
                 title:'HERec 个人中心'
             }
         },
+        {
+            path:'searchMovie/:mName',
+            name:'searchMovie',
+            component:searchMovie,
+            props:true,
+            meta:{
+                title:'HERec 电影搜寻结果'
+            }
+        },
+        {
+            path:'searchPerson/:pName',
+            name:'searchPerson',
+            component:searchPerson,
+            props:true,
+            meta:{
+                title:'HERec 影人搜寻结果'
+            }
+        },
+
         {
             path: '*',
             component: notFound
