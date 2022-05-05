@@ -19,8 +19,10 @@
 			</el-submenu>
 			<el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
       <el-submenu index="4" v-if="this.$cookie.get('userId')">
-          <template slot="title">头像</template>
-          <el-menu-item index="4-1">个人中心</el-menu-item>
+          <template slot="title">{{ this.userName }}</template>
+          <el-menu-item index="4-1">
+            <router-link to="/me">个人中心</router-link>
+          </el-menu-item>
           <el-menu-item index="4-2" @click="logout()">退出登录</el-menu-item>
       </el-submenu>
       <el-menu-item index="4" v-else>
@@ -42,7 +44,8 @@
 		name: 'Headermenu',
 		data() {
 			return {
-				activeIndex: '1'
+				activeIndex: '1',
+        userName:''
 			};
 		},
     methods:{
@@ -55,8 +58,25 @@
           type: 'warning'
         });
       },
-    }
-	}
+    },
+    created() {
+      if(this.$cookie.get('userId')){
+       this.$axios({
+         method:"get",
+         url:'/getUserNameByUid',
+         params:{
+           uid:this.$cookie.get('userId')
+         },
+       }).then(res=>{
+         if (res.data.result){
+           this.userName=res.data.userName
+         }else{
+
+         }
+       })
+      }
+    },
+  }
 </script>
 
 <style>

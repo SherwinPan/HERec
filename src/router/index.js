@@ -9,16 +9,18 @@ import home from '@/pages/Home'
 import rec from '@/components/rec'
 import movieDetail from '@/pages/movieDetail'
 import notFound from "@/pages/NotFound";
+import  me from '@/pages/me';
+import personDetail from '@/pages/personDetail';
 
 Vue.use(Router);
-let r = new Router({})
-r.beforeEach((to, from, next) => {
-/* 路由发生变化修改页面title */
-  if (to.meta.title) {
-    document.title = to.meta.title
-  }
-  next()
-})
+// let r = new Router({})
+// r.beforeEach((to, from, next) => {
+// /* 路由发生变化修改页面title */
+//   if (to.meta.title) {
+//     document.title = to.meta.title
+//   }
+//   next()
+// })
 // export default r;
 export default new Router({
     routes: [
@@ -61,13 +63,32 @@ export default new Router({
             meta: {
                 title: 'HERec 登录'
             }
-        }, {
+        },
+        {
             path: '/movieDetail/:mid',
             name: 'movieDetail',
             component: movieDetail,
             props: true,
             meta: {
                 title: 'HERec 电影详情'
+            }
+        },
+        {
+            path: '/personDetail/:pid',
+            name: 'personDetail',
+            component: personDetail,
+            props: true,
+            meta: {
+                title: 'HERec 电影人详情'
+            }
+        },
+        {
+            path:'/me',
+            name:'me',
+            component:me,
+            props:true,
+            meta:{
+                title:'HERec 个人中心'
             }
         },
         {
