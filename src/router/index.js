@@ -17,6 +17,9 @@ import createMovie from "@/pages/createMovie";
 import modifyMovie from "@/pages/modifyMovie";
 import createPerson from "@/pages/createPerson";
 import modifyPerson from "@/pages/modifyPerson";
+import classicMovie from "@/pages/classicMovie";
+import newMovie from "@/pages/newMovie";
+import popularMovie from "@/pages/popularMovie";
 Vue.use(Router);
 // let r = new Router({})
 // r.beforeEach((to, from, next) => {
@@ -148,7 +151,30 @@ export default new Router({
                 title: "HERec 修改影人信息"
             }
         },
-
+        {
+            path:'/classicMovie',
+            name:'classicMovie',
+            component:classicMovie,
+            meta:{
+                title: "HERec 经典排行"
+            }
+        },
+        {
+            path:'/newMovie',
+            name:'newMovie',
+            component:newMovie,
+            meta:{
+                title: "HERec 最新电影"
+            }
+        },
+        {
+            path:'/popularMovie',
+            name:'popularMovie',
+            component:popularMovie,
+            meta:{
+                title: "HERec 上新热门"
+            }
+        },
 
         {
             path: '*',
