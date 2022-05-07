@@ -17,7 +17,7 @@
 					<el-menu-item index="2-4-3">人员管理</el-menu-item>
 				</el-submenu>
 			</el-submenu>
-			<el-menu-item index="3">猜你喜欢</el-menu-item>
+			<el-menu-item index="3"><router-link to="/recMovie">猜你喜欢</router-link></el-menu-item>
       <el-submenu index="4" v-if="this.$cookie.get('userId')">
           <template slot="title">{{ this.userName }}</template>
           <el-menu-item index="4-1">

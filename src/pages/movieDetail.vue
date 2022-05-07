@@ -3,8 +3,17 @@
     <el-row>
       <el-col :span="12" :offset="3">
         <div id="movieTitle">
-          <h1>{{this.movieName}} <i v-if="$cookie.get('type')==0" class="el-icon-s-tools" @click="modifyMovie(mid)" ></i></h1>
-
+          <h1>{{this.movieName}} </h1>
+          <i v-if="$cookie.get('type')==0" class="el-icon-s-tools" @click="modifyMovie(mid)" ></i>
+          <el-switch
+              v-if="$cookie.get('type')==0"
+              style="display: block"
+              v-model="movieSlide"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              active-text="轮播展示"
+              inactive-text="非展示">
+          </el-switch>
         </div>
       </el-col>
     </el-row>
@@ -174,6 +183,7 @@ export default {
       commentForm:{
         userComment:'',
       },
+      movieSlide:false,
       movieName:'',//电影名称
       movieBio:'',//电影简介
       movieTime:"",//电影时长
@@ -201,6 +211,7 @@ export default {
   },
   methods:{
     getMovieInfo(){
+      let type = this.$cookie.get('type')
       this.$axios({
         method:"get",
         url:"/getMovieByMovieId",
@@ -216,6 +227,10 @@ export default {
           this.movieRelDate=res.data.movieInfo.movieRelDate;
           this.movieRegion = res.data.movieInfo.movieRegion;
           this.movieCover = res.data.movieInfo.movieImg;
+          if (type==0){
+            this.movieSlide = res.data.movieInfo.movieSlide;
+          }
+
           this.actorList = res.data.actor;
           this.typeList = res.data.type;
           this.directorList = res.data.director;
@@ -391,8 +406,21 @@ export default {
       }else{
         this.$router.push({name:'log'})
       }
-
-    }
+    },
+    movieSlide:function (newVal,oldVal){
+      this.$axios({
+        method:"get",
+        url:'/changeMovieSlide',
+        params:{
+          mid:this.mid,
+          isSlide:this.movieSlide,
+        }
+      }).then(res=>{
+        if(res.data.result){
+          this.$message.success('轮播修改成功')
+        }
+      })
+    },
   },
 
 }

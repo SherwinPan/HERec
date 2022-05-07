@@ -3,9 +3,9 @@
     <div class="block">
       <!--        轮播slide-->
       <el-carousel height="400px" style="display: block" >
-        <el-carousel-item v-for="item in 4" :key="item" @click="jumpMovieDetail({item})" >
-          <el-image :src="require('../assets/HERec.png')" class="carouselImg" :fit="'cover'" @click="jumpMovieDetail(item)"></el-image>
-          <h3>{{ item }}</h3>
+        <el-carousel-item v-for="(item,index) in slideMovieList" :key="index" @click="jumpMovieDetail(item.movieId)" >
+          <el-image :src="$store.getters.getMediaUrl+item.movieSlideImg" class="carouselImg" :fit="'cover'" @click="jumpMovieDetail(item.movieId)"></el-image>
+          <h3>{{ item.movieName }}</h3>
         </el-carousel-item>
       </el-carousel>
 
@@ -14,11 +14,11 @@
           上新热门
         </div>
         <div class="spanContent">
-          <router-link :to="{name:'movieDetail',params:{mid:item}}" v-for="item in 6" :key="item">
+          <router-link :to="{name:'movieDetail',params:{mid:item.movieId}}" v-for="(item,index) in popularMovieList" :key="index">
             <el-image class="spanContentImg"
-                      style="margin: 20px 0px 0px 20px;border-radius: 4px;height: 9em;" :src="src" :fit="'cover'">
+                      style="margin: 20px 0px 0px 20px;border-radius: 4px;height: 9em;width: 13vw" :src="$store.getters.getMediaUrl+item.movieImg" :fit="'cover'">
             </el-image>
-            <p style="text-align: center;margin: 0px">{{ item }}</p>
+            <p style="text-align: center;margin: 0px">{{ item.movieName.slice(0,13) }}</p>
           </router-link>
         </div>
       </div>
@@ -28,12 +28,12 @@
           经典排行
         </div>
         <div class="spanContent">
-          <div v-for="item in 6" :key="item">
+          <router-link :to="{name:'movieDetail',params:{mid:item.movieId}}" v-for="(item,index) in classicMovieList" :key="index" >
             <el-image class="spanContentImg"
-                      style="margin: 20px 0px 0px 20px;border-radius: 4px;height: 9em;" :src="src" :fit="'cover'">
+                      style="margin: 20px 0px 0px 20px;border-radius: 4px;height: 9em;width:13vw" :src="$store.getters.getMediaUrl+item.movieImg" :fit="'cover'">
             </el-image>
-            <p style="text-align: center;margin: 0px">{{ item }}</p>
-          </div>
+            <p style="text-align: center;margin: 0px ; text-decoration:none">{{ item.movieName.slice(0,13) }}</p>
+          </router-link>
         </div>
       </div>
 
@@ -41,9 +41,22 @@
         <div class="spanTitle">
           猜你喜欢
         </div>
-          <ul class="infinite-list" v-infinite-scroll="load1" >
-            <li v-for="i in count" class="infinite-list-item">{{ i }}</li>
-          </ul>
+        <div class="spanContent">
+          <router-link :to="{name:'movieDetail',params:{mid:item.movieId}}" v-for="(item,index) in recMovieList" :key="index" >
+            <el-image class="spanContentImg"
+                      style="margin: 20px 0px 0px 20px;border-radius: 4px;height: 9em;width:13vw" :src="$store.getters.getMediaUrl+item.movieImg" :fit="'cover'">
+            </el-image>
+            <p style="text-align: center;margin: 0px ; text-decoration:none">{{ item.movieName.slice(0,13) }}</p>
+          </router-link>
+        </div>
+        <div class="spanContent">
+          <router-link :to="{name:'movieDetail',params:{mid:item.movieId}}" v-for="(item,index) in recMovieList1" :key="index" >
+            <el-image class="spanContentImg"
+                      style="margin: 20px 0px 0px 20px;border-radius: 4px;height: 9em;width:13vw" :src="$store.getters.getMediaUrl+item.movieImg" :fit="'cover'">
+            </el-image>
+            <p style="text-align: center;margin: 0px ; text-decoration:none">{{ item.movieName.slice(0,13) }}</p>
+          </router-link>
+        </div>
 
       </div>
 
@@ -58,6 +71,14 @@ export default {
     return {
       src: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
       count: 0,
+      classicMovieList:[],
+      popularMovieList:[],
+      slideMovieList:[],
+      recMovieList:[],
+      recMovieList1:[],
+      numOfMovie:0,
+      curPage:0.6,
+      imgWidth:'144px'
     }
   },
   methods:{
@@ -68,7 +89,80 @@ export default {
     load () {
       this.count += 2
     },
-  }
+    getTopMovie(){
+      // let id=this.$cookie.get('userId');
+      this.$axios({
+        method:"get",
+        url:'/getTopMovieSimple',
+        params:{
+          curPage:this.curPage,
+        }
+      }).then(res=>{
+        if(res.data.numOfMovie>0){
+          this.numOfMovie= res.data.numOfMovie
+          this.classicMovieList= res.data.movieList
+        }else{
+          this.numOfRate=0
+        }
+      })
+    },
+    getPopularMovie(){
+      // let id=this.$cookie.get('userId');
+      this.$axios({
+        method:"get",
+        url:'/getPopularMovieSimple',
+        params:{
+          curPage:this.curPage,
+        }
+      }).then(res=>{
+        if(res.data.numOfMovie >0){
+          this.numOfMovie= res.data.numOfMovie
+          this.popularMovieList= res.data.movieList
+        }else{
+          this.numOfRate=0
+        }
+      })
+    },
+    getSlideMovie(){
+      this.$axios({
+        method:"get",
+        url:'/getSlideMovie',
+      }).then(res=>{
+        if(res.data.result){
+          this.slideMovieList=res.data.slideMovieList
+        }else{
+        }
+      })
+    },
+    getRec(){
+      let uid = this.$cookie.get('userId')
+      if(uid){
+        this.$axios({
+          method:"get",
+          url:'/getRec',
+          params:{
+            uid:uid,
+          }
+        }).then(res=>{
+          this.recMovieList=res.data.recMovieList.slice(0,6)
+          this.recMovieList1=res.data.recMovieList.slice(6,12)
+        })
+      }else{
+
+      }
+    },
+
+
+  },
+  created() {
+    this.getTopMovie()
+    this.getPopularMovie()
+    this.getSlideMovie()
+    this.getRec()
+  },
+  mounted() {
+
+  },
 }
 </script>
 
@@ -80,7 +174,8 @@ export default {
   line-height: 4em;
   margin: 0;
   position: relative;
-  bottom: 4em;
+  bottom: 11em;
+  left: 13em;
 
   text-align: center;
 }

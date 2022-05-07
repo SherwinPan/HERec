@@ -83,6 +83,32 @@
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
+        <el-form-item label="是否轮播展示">
+          <el-switch
+              style="display: block"
+              v-model="movieSlide"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              active-text="轮播展示"
+              inactive-text="非展示">
+          </el-switch>
+        </el-form-item>
+        <el-form-item label="电影展示封面">
+          <el-upload
+              class="avatar-uploader"
+              action=""
+              ref="uploadSlideImg"
+              :limit="1"
+              :show-file-list="true"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+              :http-request="httpRequestSlide"
+              :file-list="slideFile"
+          >
+            <el-image :fit="'scale-down'" v-if="slideUrl" :src="slideUrl" class="avatar"></el-image>
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
 
         <el-form-item label="语言">
           <el-checkbox-group v-model="movieLang">
@@ -196,6 +222,7 @@ export default {
       movieFrom:{},
       movieName:'',
       movieCover:'',
+      movieSlideImg:'',
       movieBio:'',
       movieRegion:[],
       movieTime:'',
@@ -205,10 +232,13 @@ export default {
       directorList:[],
       typeList:[],
       fileList:[],
+      slideFile:[],
       options:[],
       directOptions:[],
       list:[],
       imageUrl:'',
+      slideUrl:'',
+      movieSlide:'',
       loading: false,
       movieFromRules:{
         movieName: [
@@ -230,15 +260,18 @@ export default {
           this.movieName=res.data.movieInfo.movieName;
           this.movieBio=res.data.movieInfo.movieBio;
           if (res.data.movieInfo.movieLang){
-            this.movieLang = res.data.movieInfo.movieLang.split('/');
+            this.movieLang = res.data.movieInfo.movieLang.replaceAll(' ','').split('/');
           }
           if(res.data.movieInfo.movieRegion){
-            this.movieRegion = res.data.movieInfo.movieRegion.split('/');
+            this.movieRegion = res.data.movieInfo.movieRegion.replaceAll(' ','').split('/');
           }
           this.movieTime=res.data.movieInfo.movieTime;
           this.movieRelDate=res.data.movieInfo.movieRelDate;
           this.movieCover = res.data.movieInfo.movieImg;
+          this.movieSlideImg = res.data.movieInfo.movieSlideImg;
+          this.movieSlide = res.data.movieInfo.movieSlide;
           this.imageUrl = "http://127.0.0.1:8000/media/" + this.movieCover
+          this.slideUrl = "http://127.0.0.1:8000/media/" + this.movieSlideImg
           this.actorList = res.data.actorId;
           this.aList=res.data.actor;
           this.dList=res.data.director;
@@ -363,8 +396,35 @@ export default {
           });
         }
       })
-
     },
+    httpRequestSlide(param){
+      let fileObj = param.file
+      let fd = new FormData()
+      fd.append('file',fileObj)
+      fd.append('mid', this.mid)
+      this.$axios({
+            method: 'post',
+            url: '/changeMovieSlideImg',
+            data: fd,
+            header: {
+              'Content-Type': 'multipart/form-data'  //如果写成contentType会报错
+            }
+          }
+      ).then(res => {
+        if (res.data.result === false) {
+          this.$message.error('修改失败');
+          //修改失败，重新注册
+        } else {
+          this.$message({
+            message: '修改展示Img成功',
+            type: 'warning'
+          });
+        }
+      })
+    },
+
+
+
     changeMovieTime(){
       console.log(this.movieTime)
       this.$axios({
@@ -531,6 +591,20 @@ export default {
     },
     typeList:function (){
       this.changeMovieType()
+    },
+    movieSlide:function (newVal,oldVal){
+      this.$axios({
+        method:"get",
+        url:'/changeMovieSlide',
+        params:{
+          mid:this.mid,
+          isSlide:this.movieSlide,
+        }
+      }).then(res=>{
+        if(res.data.result){
+          this.$message.success('轮播修改成功')
+        }
+      })
     },
   },
 }

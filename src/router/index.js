@@ -20,6 +20,7 @@ import modifyPerson from "@/pages/modifyPerson";
 import classicMovie from "@/pages/classicMovie";
 import newMovie from "@/pages/newMovie";
 import popularMovie from "@/pages/popularMovie";
+import recMovie from "@/pages/recMovie";
 Vue.use(Router);
 // let r = new Router({})
 // r.beforeEach((to, from, next) => {
@@ -173,6 +174,14 @@ export default new Router({
             component:popularMovie,
             meta:{
                 title: "HERec 上新热门"
+            }
+        },
+        {
+            path:'/recMovie',
+            name:'recMovie',
+            component:recMovie,
+            meta:{
+                title: "HERec 猜你喜欢(❤ ω ❤)"
             }
         },
 
