@@ -3,14 +3,14 @@
     <el-row>
       <el-col :span="12" :offset="3">
         <div id="movieTitle">
-          <h1>{{this.personInfo.personName}}</h1>
+          <h1>{{this.personInfo.personName}} <i v-if="$cookie.get('type')==0" class="el-icon-s-tools" @click="modifyPerson(pid)" ></i></h1>
         </div>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="2" :offset="3">
         <div id="personImg" style="background: #2c3e50" >
-          <el-image :src="require('../assets/logo.png')" :fit="'cover'"></el-image>
+          <el-image v-if="loadImg" :src="personInfo.personImg" :fit="'scale-down'"></el-image>
         </div>
       </el-col>
       <el-col :span="7" :offset="1">
@@ -65,7 +65,9 @@
                   </div>
                 </el-col>
                 <el-col :span="8" :offset="2">
-                  <el-image :src="require('../assets/HERec.png')" class="carouselImg" :fit="'cover'" @click="jumpMovieDetail(props.row.movieId)"></el-image>
+                  <el-image lazy style="height: 15em"
+                            :src="'http://127.0.0.1:8000/media/'+props.row.movieImg" class="carouselImg" :fit="'scale-down'"
+                            @click="jumpMovieDetail(props.row.movieId)"></el-image>
                 </el-col>
               </el-row>
               <el-row>
@@ -110,7 +112,11 @@
                   </div>
                 </el-col>
                 <el-col :span="8" :offset="2">
-                  <el-image :src="require('../assets/HERec.png')" class="carouselImg" :fit="'cover'" @click="jumpMovieDetail(props.row.movieId)"></el-image>
+                  <el-image lazy  style="height: 15em"
+                            :src="'http://127.0.0.1:8000/media/'+props.row.movieImg" :fit="'scale-down'"
+                            @click="jumpMovieDetail(props.row.movieId)">
+
+                  </el-image>
                 </el-col>
               </el-row>
               <el-row>
@@ -159,6 +165,7 @@ export default {
       directMovieList:[],
       isActor:false,
       actorMovieList:[],
+      loadImg:false,
     };
   },
   methods:{
@@ -178,6 +185,7 @@ export default {
           this.personInfo.personImg=res.data.personInfo.personImg
           this.personInfo.personBio=res.data.personInfo.personBio
           this.personInfo.personId=res.data.personInfo.personId
+          this.loadImg=true
           // this.movieList=res.data.movieList
         }else{
           this.$message.error('无此影人404');
@@ -227,6 +235,9 @@ export default {
       // console.log("jump")
       this.$router.push({name:'movieDetail',params:{mid:parseInt(mid)}});
     },
+    modifyPerson(pid){
+      this.$router.push({name:'modifyPerson',params:{pid:parseInt(pid)}})
+    }
 
   },
   created() {

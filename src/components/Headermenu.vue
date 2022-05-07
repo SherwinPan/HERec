@@ -12,12 +12,12 @@
 				<el-menu-item index="2-3">经典排行</el-menu-item>
 				<el-submenu v-if="type==0" index="2-4">
 					<template slot="title">管理人员操作</template>
-					<el-menu-item index="2-4-1">添加电影</el-menu-item>
-					<el-menu-item index="2-4-2">查看电影</el-menu-item>
+					<el-menu-item index="2-4-1"><router-link to="/createMovie">添加电影</router-link></el-menu-item>
+					<el-menu-item index="2-4-2"><router-link to="/createPerson">添加影人</router-link></el-menu-item>
 					<el-menu-item index="2-4-3">人员管理</el-menu-item>
 				</el-submenu>
 			</el-submenu>
-			<el-menu-item index="3"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+			<el-menu-item index="3">猜你喜欢</el-menu-item>
       <el-submenu index="4" v-if="this.$cookie.get('userId')">
           <template slot="title">{{ this.userName }}</template>
           <el-menu-item index="4-1">

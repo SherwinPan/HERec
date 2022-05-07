@@ -13,10 +13,17 @@
           <template slot="title">
             <p @click="jumpPersonDetail(p.personId)">{{p.personName}}</p>
           </template>
-          <div>出生日期：{{p.personBirth}}</div>
-          <div>性别：{{p.personGender}}</div>
-          <div>出生地：{{p.personPlace}}</div>
-          <div>影人简介：{{p.personBio}}</div>
+          <el-row>
+            <el-col :span="20">
+              <div>出生日期：{{p.personBirth}}</div>
+              <div>性别：{{p.personGender}}</div>
+              <div>出生地：{{p.personPlace}}</div>
+              <div>影人简介：{{p.personBio}}</div>
+            </el-col>
+            <el-col :span="4" v-if="$cookie.get('type')==0">
+              <i class="el-icon-s-tools" @click="modifyPerson(p.personId)" ></i>
+            </el-col>
+          </el-row>
         </el-collapse-item>
 
       </el-collapse>
@@ -76,6 +83,9 @@ export default {
       // console.log("jump")
       this.$router.push({name:'personDetail',params:{pid:parseInt(pid)}});
     },
+    modifyPerson(pid){
+      this.$router.push({name:'modifyPerson',params:{pid:parseInt(pid)}})
+    }
   },
   created() {
     this.searchPerson()

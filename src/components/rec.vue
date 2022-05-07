@@ -37,7 +37,7 @@
         </div>
       </div>
 
-      <div id="recMovie">
+      <div id="recMovie" v-if="this.$cookie.get('userId')">
         <div class="spanTitle">
           猜你喜欢
         </div>

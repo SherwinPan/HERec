@@ -3,23 +3,26 @@
     <el-row>
       <el-col :span="12" :offset="3">
         <div id="movieTitle">
-          <h1>{{this.movieName}}</h1>
+          <h1>{{this.movieName}} <i v-if="$cookie.get('type')==0" class="el-icon-s-tools" @click="modifyMovie(mid)" ></i></h1>
+
         </div>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="2" :offset="3">
         <div id="movieCover" style="background: #2c3e50" >
-          <el-image :src="require('../assets/logo.png')" :fit="'cover'"></el-image>
+          <el-image v-if="imgLoad" :src="this.$store.getters.getMediaUrl + movieCover" :fit="'scale-down'"></el-image>
         </div>
       </el-col>
       <el-col :span="7" :offset="1">
         <div id="movieInfo">
           <el-descriptions class="margin-top" title="" :column="1">
             <el-descriptions-item label="导演" label-class-name="movieDirector">
-              <span v-for="d in this.directorList" @click="jumpPersonDetail(d.directorIdOld)">
-                {{d.personName}}/
-              </span>
+              <div style="cursor: pointer" @click="alert(directorList)">
+                <span v-for="d in this.directorList" @click="jumpPersonDetail(d.directorIdOld)">
+                  {{d.personName}}/
+                </span>
+              </div>
             </el-descriptions-item>
             <el-descriptions-item label="主演" label-class-name="movieActor">
               <span v-for="d in this.actorList" @click="jumpPersonDetail(d.actorIdOld)">
@@ -167,6 +170,7 @@ export default {
   name: "movieDetail",
   data(){
     return{
+      imgLoad:false,
       commentForm:{
         userComment:'',
       },
@@ -215,6 +219,7 @@ export default {
           this.actorList = res.data.actor;
           this.typeList = res.data.type;
           this.directorList = res.data.director;
+          this.imgLoad=true;
         }else{
           this.$message.error('无此电影404');
           this.$router.go(-1);
@@ -339,6 +344,9 @@ export default {
       }else {
         this.$message.error('请先登录，再评论')
       }
+    },
+    modifyMovie(mid){
+      this.$router.push({name:'modifyMovie',params:{mid:parseInt(mid)}})
     },
   },
   created() {

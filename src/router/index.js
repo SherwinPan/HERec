@@ -13,7 +13,10 @@ import  me from '@/pages/me';
 import personDetail from '@/pages/personDetail';
 import searchMovie from '@/pages/searchMovie';
 import searchPerson from "@/pages/searchPerson";
-
+import createMovie from "@/pages/createMovie";
+import modifyMovie from "@/pages/modifyMovie";
+import createPerson from "@/pages/createPerson";
+import modifyPerson from "@/pages/modifyPerson";
 Vue.use(Router);
 // let r = new Router({})
 // r.beforeEach((to, from, next) => {
@@ -94,7 +97,7 @@ export default new Router({
             }
         },
         {
-            path:'searchMovie/:mName',
+            path:'/searchMovie/:mName',
             name:'searchMovie',
             component:searchMovie,
             props:true,
@@ -103,7 +106,7 @@ export default new Router({
             }
         },
         {
-            path:'searchPerson/:pName',
+            path:'/searchPerson/:pName',
             name:'searchPerson',
             component:searchPerson,
             props:true,
@@ -111,6 +114,41 @@ export default new Router({
                 title:'HERec 影人搜寻结果'
             }
         },
+        {
+            path:'/createMovie',
+            name:'createMovie',
+            component:createMovie,
+            meta:{
+                title:'HERec 增加电影',
+            }
+        },
+        {
+            path:'/modifyMovie/:mid',
+            name:'modifyMovie',
+            component:modifyMovie,
+            props:true,
+            meta:{
+                title: "HERec 修改电影信息"
+            }
+        },
+        {
+            path:'/createPerson',
+            name:'createPerson',
+            component:createPerson,
+            meta:{
+                title:'HERec 增加影人',
+            }
+        },
+        {
+            path:'/modifyPerson/:pid',
+            name:'modifyPerson',
+            component:modifyPerson,
+            props:true,
+            meta:{
+                title: "HERec 修改影人信息"
+            }
+        },
+
 
         {
             path: '*',

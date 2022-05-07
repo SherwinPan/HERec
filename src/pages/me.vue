@@ -48,7 +48,8 @@
                 </div>
               </el-col>
               <el-col :span="8" :offset="2">
-                <el-image :src="require('../assets/HERec.png')" class="carouselImg" :fit="'cover'" @click="jumpMovieDetail(props.row.movieId)"></el-image>
+                <el-image lazy style="height: 15em"
+                    :src="'http://127.0.0.1:8000/media/'+props.row.movieImg" class="carouselImg" :fit="'scale-down'" @click="jumpMovieDetail(props.row.movieId)"></el-image>
               </el-col>
             </el-row>
             <el-row>
@@ -93,7 +94,8 @@
                 </div>
               </el-col>
               <el-col :span="8" :offset="2">
-                <el-image :src="require('../assets/HERec.png')" class="carouselImg" :fit="'cover'" @click="jumpMovieDetail(props.row.movieId)"></el-image>
+                <el-image lazy style="height: 15em"
+                    :src="'http://127.0.0.1:8000/media/'+props.row.movieImg" class="carouselImg" :fit="'scale-down'" @click="jumpMovieDetail(props.row.movieId)"></el-image>
               </el-col>
             </el-row>
             <el-row>

@@ -13,10 +13,18 @@
             <template slot="title">
               <p @click="jumpMovieDetail(m.movieId)">{{m.movieName}}</p>
             </template>
-            <div>上映日期：{{m.movieRelDate}}</div>
-            <div>语言：{{m.movieLang}}</div>
-            <div>制片国家/地区：{{m.movieRegion}}</div>
-            <div>时长：{{m.movieTime}}</div>
+            <el-row>
+              <el-col :span="20">
+                <div>上映日期：{{m.movieRelDate}}</div>
+                <div>语言：{{m.movieLang}}</div>
+                <div>制片国家/地区：{{m.movieRegion}}</div>
+                <div>时长：{{m.movieTime}}</div>
+              </el-col>
+              <el-col :span="4" v-if="$cookie.get('type')==0">
+                <i class="el-icon-s-tools" @click="modifyMovie(m.movieId)" ></i>
+              </el-col>
+            </el-row>
+
           </el-collapse-item>
 
         </el-collapse>
@@ -76,6 +84,9 @@ export default {
       // console.log("jump")
       this.$router.push({name:'movieDetail',params:{mid:parseInt(mid)}});
     },
+    modifyMovie(mid){
+      this.$router.push({name:'modifyMovie',params:{mid:parseInt(mid)}})
+    }
   },
   created() {
     this.searchMovie()

@@ -6,30 +6,30 @@
         </el-image>
       </div>
     </router-link>
-    <el-col :span="9" :offset="4">
+    <el-col :span="9" :offset="4" style="height: 80px">
       <div v-if="$route.path==='/log'"></div>
-      <el-form v-else :inline="true" :model="formInline" class="demo-form-inline" style="margin-top: 38px" size="mini">
-        <el-form-item label="">
+      <el-form @keyup.enter.native="onSubmit" v-else :inline="true" :model="formInline" class="demo-form-inline" style="margin-top: 38px;" size="mini">
+        <el-form-item label="" style="height: 28px">
           <el-select v-model="formInline.choose" style="width: 5.1em">
             <el-option label="电影" value="movie"></el-option>
             <el-option label="影人" value="person"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="">
+        <el-form-item label="" style="height: 28px">
           <el-input v-model="formInline.text" prefix-icon="el-icon-search" placeholder="搜索"></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item style="height: 28px">
           <el-button type="primary" @click="onSubmit" style="background: #007722">查询</el-button>
         </el-form-item>
       </el-form>
     </el-col>
-    <el-col :span="11">
+    <el-col :span="11" style="height: 80px">
       <div style="float: right; margin-right: 2%">
         <div v-if="$route.path==='/log'">
           <p></p>
         </div>
         <div v-else>
-          <headermenu></headermenu>
+          <headermenu style="height: 80px"></headermenu>
         </div>
       </div>
 
@@ -78,6 +78,7 @@
   z-index: 20;
 }
 
+
 </style>
 
 <style scoped>
@@ -92,7 +93,11 @@
 		left: 2%;
 		top: 10px;
 		z-index: 10;
+    height: 60px;
 	}
+  #logo div{
+    height: 60px;
+  }
 
 	p {
 		margin: 0px;
